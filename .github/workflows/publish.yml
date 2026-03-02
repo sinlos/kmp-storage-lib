@@ -1,10 +1,10 @@
 name: Publish to GitHub Packages
 
 on:
-  workflow_dispatch: # Позволяет запускать вручную
+  workflow_dispatch:
     inputs:
       version:
-        description: 'например, 1.0.0-SNAPSHOT'
+        description: '1.0.0-SNAPSHOT'
         required: true
         default: '1.0.0-SNAPSHOT'
 
@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: develop # Всегда берем ветку develop
+          ref: develop
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
