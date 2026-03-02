@@ -1,3 +1,6 @@
+group = "world.chebur.kmp"
+version = findProperty("version")?.toString() ?: "1.0.0"
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform) apply true
     alias(libs.plugins.androidMultiplatformLibrary) apply true
@@ -5,11 +8,11 @@ plugins {
 }
 
 kotlin {
+    jvmToolchain(21)
+
     androidLibrary {
         namespace = "world.chebur.kmp.storage"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
-	    group = "world.chebur.kmp"
-	    version = "1.0.0"
     }
 
     jvm()
@@ -73,7 +76,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/sinlos/kmp-storage")
+            url = uri("https://maven.pkg.github.com/sinlos/kmp-storage-lib")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
