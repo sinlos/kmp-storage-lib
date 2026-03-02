@@ -93,32 +93,5 @@ publishing {
             "wasmJs" -> "kmp-storage-wasmjs"
             else -> "kmp-storage"
         }
-
-        // Явно генерируем POM с необходимыми метаданными
-        pom {
-            name.set("KMP Storage Library")
-            description.set("Kotlin Multiplatform Storage Library")
-            url.set("https://github.com/sinlos/kmp-storage-lib")
-
-            licenses {
-                license {
-                    name.set("MIT")
-                    url.set("https://opensource.org/licenses/MIT")
-                }
-            }
-
-            developers {
-                developer {
-                    id.set("sinlos")
-                    name.set("Ilya Pogrebenko")
-                }
-            }
-
-            scm {
-                connection.set("scm:git:https://github.com/sinlos/kmp-storage-lib.git")
-                developerConnection.set("scm:git:https://github.com/sinlos/kmp-storage-lib.git")
-                url.set("https://github.com/sinlos/kmp-storage-lib")
-            }
-        }
     }
 }
