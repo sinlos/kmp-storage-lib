@@ -1,5 +1,3 @@
-import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
-
 group = "world.chebur.kmp"
 version = findProperty("version")?.toString() ?: "1.0.0"
 
@@ -86,23 +84,14 @@ publishing {
 
     publications.withType<MavenPublication> {
         groupId = "world.chebur.kmp"
-        artifactId = "kmp-storage"
         version = findProperty("version")?.toString() ?: "1.0.0"
-    }
-}
-
-// Отключаем публикацию target-specific артефактов в GitHub Packages
-// Публикуем только kotlinMultiplatform
-tasks.withType<PublishToMavenRepository> {
-    val publicationName = publication.name
-    val repositoryName = repository.name
-
-    // Пропускаем публикацию всех, кроме kotlinMultiplatform в GitHubPackages
-    onlyIf {
-        if (repositoryName == "GitHubPackages") {
-            publicationName == "kotlinMultiplatform"
-        } else {
-            true
+        artifactId = when (name) {
+            "kotlinMultiplatform" -> "kmp-storage"
+            "android" -> "kmp-storage-android"
+            "js" -> "kmp-storage-js"
+            "jvm" -> "kmp-storage-jvm"
+            "wasmJs" -> "kmp-storage-wasmjs"
+            else -> "kmp-storage"
         }
     }
 }
