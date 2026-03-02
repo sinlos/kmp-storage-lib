@@ -72,6 +72,13 @@ kotlin {
 
 publishing {
     publications {
+        register<MavenPublication>("maven") {
+            groupId = "world.chebur.kmp"
+            artifactId = "kmp-storage"
+            version = findProperty("version")?.toString() ?: "1.0.0"
+
+            from(components["kotlin"])
+        }
     }
     repositories {
         maven {
