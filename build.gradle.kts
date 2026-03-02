@@ -71,15 +71,6 @@ kotlin {
 }
 
 publishing {
-    publications {
-        register<MavenPublication>("maven") {
-            groupId = "world.chebur.kmp"
-            artifactId = "kmp-storage"
-            version = findProperty("version")?.toString() ?: "1.0.0"
-
-            from(components["kotlin"])
-        }
-    }
     repositories {
         maven {
             name = "GitHubPackages"
@@ -89,5 +80,11 @@ publishing {
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
+    }
+
+    publications.withType<MavenPublication> {
+        groupId = "world.chebur.kmp"
+        artifactId = "kmp-storage"
+        version = findProperty("version")?.toString() ?: "1.0.0"
     }
 }
