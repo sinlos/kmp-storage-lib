@@ -12,6 +12,9 @@ sealed class PreferenceValue {
     @Serializable data class DoubleValue(val value: Double) : PreferenceValue()
     @Serializable data class BooleanValue(val value: Boolean) : PreferenceValue()
     @Serializable data class FloatValue(val value: Float) : PreferenceValue()
+
+    // TODO: add serializable value
+
 }
 
 typealias KmpPrefsMap = Map<String, PreferenceValue>

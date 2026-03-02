@@ -13,6 +13,8 @@ kotlin {
     androidLibrary {
         namespace = "world.chebur.kmp.storage"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = 24
+        // В этом плагине настройки тестов могут задаваться здесь
     }
 
     jvm()
@@ -38,7 +40,7 @@ kotlin {
             }
         }
 
-        commonTest {
+        val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
                 implementation(libs.kotlinx.coroutines.test)
@@ -55,8 +57,24 @@ kotlin {
             }
         }
 
-        androidMain.get().dependsOn(dataStore)
-        jvmMain.get().dependsOn(dataStore)
+        val androidMain by getting {
+            dependsOn(dataStore)
+        }
+
+        // В плагине Android Multiplatform Library инструментальные тесты 
+        // обычно попадают в androidDeviceTest
+        val androidDeviceTest by getting {
+            dependsOn(commonTest)
+            dependsOn(androidMain)
+            dependencies {
+                implementation(libs.androidx.test.ext.junit)
+                implementation(libs.androidx.test.runner)
+            }
+        }
+
+        val jvmMain by getting {
+            dependsOn(dataStore)
+        }
 
         val webMain by creating {
             dependsOn(commonMain.get())
@@ -94,7 +112,6 @@ publishing {
             else -> "kmp-storage"
         }
 
-        // Явно генерируем POM с необходимыми метаданными
         pom {
             name.set("KMP Storage Library")
             description.set("Kotlin Multiplatform Storage Library")
