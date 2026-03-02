@@ -29,6 +29,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Publish
-        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository -Pversion=${{ github.event.inputs.version }}
+        run: ./gradlew publish -Pversion=${{ github.event.inputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
