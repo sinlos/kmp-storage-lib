@@ -71,8 +71,6 @@ kotlin {
 }
 
 publishing {
-    publications {
-    }
     repositories {
         maven {
             name = "GitHubPackages"
@@ -80,6 +78,39 @@ publishing {
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+
+    publications.withType<MavenPublication> {
+        groupId = "world.chebur.kmp"
+        version = findProperty("version")?.toString() ?: "1.0.0"
+        artifactId = when (name) {
+            "kotlinMultiplatform" -> "kmp-storage"
+            "android" -> "kmp-storage-android"
+            "js" -> "kmp-storage-js"
+            "jvm" -> "kmp-storage-jvm"
+            "wasmJs" -> "kmp-storage-wasmjs"
+            else -> "kmp-storage"
+        }
+
+        // Явно генерируем POM с необходимыми метаданными
+        pom {
+            name.set("KMP Storage Library")
+            description.set("Kotlin Multiplatform Storage Library")
+            url.set("https://github.com/sinlos/kmp-storage-lib")
+
+            developers {
+                developer {
+                    id.set("sinlos")
+                    name.set("Ilya Pogrebenko")
+                }
+            }
+
+            scm {
+                connection.set("scm:git:https://github.com/sinlos/kmp-storage-lib.git")
+                developerConnection.set("scm:git:https://github.com/sinlos/kmp-storage-lib.git")
+                url.set("https://github.com/sinlos/kmp-storage-lib")
             }
         }
     }
