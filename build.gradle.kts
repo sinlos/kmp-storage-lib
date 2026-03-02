@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform) apply true
     alias(libs.plugins.androidMultiplatformLibrary) apply true
+    `maven-publish`
 }
 
 kotlin {
@@ -63,5 +64,20 @@ kotlin {
 
         jsMain.get().dependsOn(webMain)
         wasmJsMain.get().dependsOn(webMain)
+    }
+}
+
+publishing {
+    publications {
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/sinlos/kmp-storage")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
