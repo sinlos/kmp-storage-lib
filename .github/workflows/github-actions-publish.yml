@@ -28,8 +28,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
+      - name: Check artifacts before publish
+        run: ls -la build/libs/ || echo "No libs directory" && ls -la build/publications/ || echo "No publications directory"
+
       - name: Publish
-        run: ./gradlew publish -Pversion=${{ github.event.inputs.version }}
+        run: ./gradlew publish -Pversion=${{ github.event.inputs.version }} --info --stacktrace
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
