@@ -100,13 +100,6 @@ publishing {
             description.set("Kotlin Multiplatform Storage Library")
             url.set("https://github.com/sinlos/kmp-storage-lib")
 
-            licenses {
-                license {
-                    name.set("MIT")
-                    url.set("https://opensource.org/licenses/MIT")
-                }
-            }
-
             developers {
                 developer {
                     id.set("sinlos")
