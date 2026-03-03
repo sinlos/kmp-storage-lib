@@ -7,7 +7,6 @@ import com.squareup.wire.Message
 import com.squareup.wire.ProtoAdapter
 import okio.FileSystem
 import okio.Path.Companion.toPath
-import world.chebur.countdown.data.datastore.WireSerializer
 
 @Suppress("unused")
 fun <T : Message<T, Nothing>> createWireDataStore(

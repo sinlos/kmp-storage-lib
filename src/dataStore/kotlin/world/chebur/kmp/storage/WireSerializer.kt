@@ -1,4 +1,4 @@
-package world.chebur.countdown.data.datastore
+package world.chebur.kmp.storage
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.okio.OkioSerializer

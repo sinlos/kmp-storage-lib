@@ -4,6 +4,8 @@ package world.chebur.kmp.storage
 
 import kotlinx.serialization.Serializable
 
+typealias KmpPrefsMap = Map<String, PreferenceValue>
+
 @Serializable
 sealed class PreferenceValue {
     @Serializable data class StringValue(val value: String) : PreferenceValue()
@@ -17,11 +19,6 @@ sealed class PreferenceValue {
 
 }
 
-typealias KmpPrefsMap = Map<String, PreferenceValue>
-
-/**
- * Helper extensions to make KmpPrefsMap feel like original SharedPreferences or DataStore Preferences.
- */
 fun KmpPrefsMap.getString(key: String, defaultValue: String = ""): String =
     (this[key] as? PreferenceValue.StringValue)?.value ?: defaultValue
 
@@ -40,12 +37,9 @@ fun KmpPrefsMap.getBoolean(key: String, defaultValue: Boolean = false): Boolean 
 fun KmpPrefsMap.getFloat(key: String, defaultValue: Float = 0f): Float =
     (this[key] as? PreferenceValue.FloatValue)?.value ?: defaultValue
 
-/**
- * Extension for updating map with primitive values easily.
- */
-fun KmpPrefsMap.withValue(key: String, value: String): KmpPrefsMap = this + (key to PreferenceValue.StringValue(value))
-fun KmpPrefsMap.withValue(key: String, value: Int): KmpPrefsMap = this + (key to PreferenceValue.IntValue(value))
-fun KmpPrefsMap.withValue(key: String, value: Long): KmpPrefsMap = this + (key to PreferenceValue.LongValue(value))
-fun KmpPrefsMap.withValue(key: String, value: Double): KmpPrefsMap = this + (key to PreferenceValue.DoubleValue(value))
-fun KmpPrefsMap.withValue(key: String, value: Boolean): KmpPrefsMap = this + (key to PreferenceValue.BooleanValue(value))
-fun KmpPrefsMap.withValue(key: String, value: Float): KmpPrefsMap = this + (key to PreferenceValue.FloatValue(value))
+fun KmpPrefsMap.withValue(key: String, value: String) = this + (key to PreferenceValue.StringValue(value))
+fun KmpPrefsMap.withValue(key: String, value: Int) = this + (key to PreferenceValue.IntValue(value))
+fun KmpPrefsMap.withValue(key: String, value: Long) = this + (key to PreferenceValue.LongValue(value))
+fun KmpPrefsMap.withValue(key: String, value: Double) = this + (key to PreferenceValue.DoubleValue(value))
+fun KmpPrefsMap.withValue(key: String, value: Boolean) = this + (key to PreferenceValue.BooleanValue(value))
+fun KmpPrefsMap.withValue(key: String, value: Float) = this + (key to PreferenceValue.FloatValue(value))

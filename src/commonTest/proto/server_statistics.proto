@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package world.chebur.kmp.storage.model;
+
+message ServerStatistics {
+  string name = 1;
+  int64 uptime = 2;
+  bool is_public = 3;
+}

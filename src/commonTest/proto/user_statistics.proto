@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package world.chebur.kmp.storage.model;
+
+import "server_statistics.proto";
+
+message UserStatistics {
+  int32 completed_count = 1;
+  int64 total_focus_time_seconds = 2;
+  bool is_premium_user = 3;
+  ServerStatistics last_server_stats = 4;
+}

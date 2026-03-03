@@ -33,3 +33,9 @@ class WireKmpEncoder<T : Any>(
         return adapter.decode(bytes)
     }
 }
+
+object StringEncoder: KmpEncoder<String> {
+    override fun encode(value: String) = value
+
+    override fun decode(string: String) = string
+}

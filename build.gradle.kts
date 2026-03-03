@@ -4,7 +4,18 @@ version = findProperty("version")?.toString() ?: "1.0.0"
 plugins {
     alias(libs.plugins.kotlinMultiplatform) apply true
     alias(libs.plugins.androidMultiplatformLibrary) apply true
+    alias(libs.plugins.kotlinXserialization) apply true
+    alias(libs.plugins.wire) apply true
     `maven-publish`
+}
+
+wire {
+    kotlin {
+        // Мы используем sourceSets commonMain, поэтому Wire сам найдет .proto в src/commonMain/proto
+    }
+    sourcePath {
+        srcDir("src/commonTest/proto")
+    }
 }
 
 kotlin {
@@ -14,7 +25,7 @@ kotlin {
         namespace = "world.chebur.kmp.storage"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = 24
-        // В этом плагине настройки тестов могут задаваться здесь
+        withDeviceTest { }
     }
 
     jvm()
@@ -61,11 +72,8 @@ kotlin {
             dependsOn(dataStore)
         }
 
-        // В плагине Android Multiplatform Library инструментальные тесты 
-        // обычно попадают в androidDeviceTest
         val androidDeviceTest by getting {
             dependsOn(commonTest)
-            dependsOn(androidMain)
             dependencies {
                 implementation(libs.androidx.test.ext.junit)
                 implementation(libs.androidx.test.runner)
@@ -83,8 +91,40 @@ kotlin {
             }
         }
 
+        val webTest by creating {
+            dependsOn(commonTest)
+            dependsOn(webMain)
+        }
+
         jsMain.get().dependsOn(webMain)
+
+        val jsTest by getting {
+            dependsOn(webTest)
+        }
+
         wasmJsMain.get().dependsOn(webMain)
+
+        val wasmJsTest by getting {
+            dependsOn(webTest)
+        }
+    }
+}
+
+// Исправленная задача для диагностики, совместимая с configuration cache
+tasks.register("printSourceSets") {
+    group = "help"
+    description = "Prints all Kotlin source set names"
+
+    // Считываем имена на этапе конфигурации
+    val kotlin = project.extensions.getByType(org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension::class.java)
+    val sourceSetNames = kotlin.sourceSets.map { it.name }
+
+    doLast { // Выводим на этапе выполнения
+        println("\n--- Discovered Kotlin Source Sets ---")
+        sourceSetNames.sorted().forEach { name ->
+            println(name)
+        }
+        println("-------------------------------------\n")
     }
 }
 

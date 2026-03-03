@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.map
 
 class PreferencesStorage(
     private val dataStore: DataStore<Preferences>
-) : KmpStorage<KmpPrefsMap> {
+) : KmpStorage<KmpPrefsMap>, KeyValueStorage {
 
     override val data: Flow<KmpPrefsMap> = dataStore.data.map { preferences ->
         preferences.asMap().mapNotNull { (key, value) ->
@@ -65,3 +65,4 @@ class PreferencesStorage(
 }
 
 fun DataStore<Preferences>.asKmpStorage(): KmpStorage<KmpPrefsMap> = PreferencesStorage(this)
+

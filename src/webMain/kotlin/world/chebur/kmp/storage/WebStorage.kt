@@ -3,12 +3,18 @@ package world.chebur.kmp.storage
 import kotlinx.browser.window
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.serializer
+import kotlin.collections.emptyMap
 
-class WebStorage<T>(
+sealed interface WebStorage
+
+open class WebObjectStorage<T>(
     private val key: String,
     private val encoder: KmpEncoder<T>,
     private val defaultValue: T
-) : KmpStorage<T> {
+) : KmpStorage<T>, WebStorage {
 
     private val _state = MutableStateFlow(load())
     override val data: Flow<T> = _state
@@ -28,3 +34,9 @@ class WebStorage<T>(
         window.localStorage.setItem(key, encoder.encode(nextValue))
     }
 }
+
+object WebKeyValueStorage : KeyValueStorage, WebObjectStorage<KmpPrefsMap>(
+    key = "WebKeyValueStorageKey",
+    encoder = JsonKmpEncoder(MapSerializer(String.serializer(), serializer<PreferenceValue>())),
+    defaultValue = emptyMap()
+), WebStorage
