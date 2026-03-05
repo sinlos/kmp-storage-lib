@@ -10,7 +10,7 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     permissions:
       contents: read
       packages: write
@@ -31,9 +31,9 @@ jobs:
       - name: Run Android emulator and connected tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-            api-level: 33 # Specify the API level for the emulator
-            target: google_apis
-            arch: x86_64
+            api-level: 33
+            target: default
+            arch: arm64-v8a
             script: ./gradlew connectedAndroidDeviceTest
 
       - name: Run JVM Tests
