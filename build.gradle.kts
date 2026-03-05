@@ -77,11 +77,17 @@ kotlin {
         }
 
         val androidDeviceTest by getting {
+            dependsOn(dataStore)
             kotlin.srcDir("src/commonTest/kotlin")
 
             dependencies {
                 implementation(libs.kotlin.test)
                 implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.okio)
+                implementation(libs.wire.runtime)
+                implementation(libs.kotlinx.coroutines.core)
+
                 implementation(libs.androidx.test.ext.junit)
                 implementation(libs.androidx.test.runner)
             }
