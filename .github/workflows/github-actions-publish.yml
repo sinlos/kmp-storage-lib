@@ -10,7 +10,7 @@ on:
 
 jobs:
   publish:
-    runs-on: macos-13 # Используем стабильный Intel-раннер
+    runs-on: macos-latest # Возвращаемся на доступный раннер
     permissions:
       contents: read
       packages: write
@@ -34,9 +34,9 @@ jobs:
       - name: Run Android emulator and connected tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-            api-level: 33
-            target: default
-            arch: x86_64 # Архитектура для Intel раннера
+            api-level: 34
+            target: google_apis
+            arch: arm64-v8a
             script: ./gradlew connectedAndroidDeviceTest
 
       - name: Run JVM Tests
