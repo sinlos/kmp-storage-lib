@@ -55,6 +55,10 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.test)
                 implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.okio)
+                implementation(libs.wire.runtime)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
 
@@ -73,8 +77,11 @@ kotlin {
         }
 
         val androidDeviceTest by getting {
-            dependsOn(commonTest)
+            kotlin.srcDir("src/commonTest/kotlin")
+
             dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.androidx.test.ext.junit)
                 implementation(libs.androidx.test.runner)
             }
@@ -93,7 +100,6 @@ kotlin {
 
         val webTest by creating {
             dependsOn(commonTest)
-            dependsOn(webMain)
         }
 
         jsMain.get().dependsOn(webMain)
@@ -110,7 +116,6 @@ kotlin {
     }
 }
 
-// Исправленная задача для диагностики, совместимая с configuration cache
 tasks.register("printSourceSets") {
     group = "help"
     description = "Prints all Kotlin source set names"
